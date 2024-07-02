@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@canvasjs/react-charts": "^1.0.2",
     "axios": "^1.7.2",
+    "canvasjs-react-charts": "^1.0.5",
     "chart.js": "^4.4.3",
     "framer-motion": "^11.2.11",
     "next": "^14.2.4",
