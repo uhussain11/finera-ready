@@ -5,7 +5,6 @@ import { FiBarChart2, FiCpu, FiPieChart } from 'react-icons/fi';
 import ShiftingDropDown from '../components/dashboard/ShiftingDropDown';
 import TradingViewWidget from '../components/dashboard/TradingViewWidget';
 import MarketDashboard from '../components/dashboard/MarketDashboard';
-import StaggeredDropDown from '../components/dashboard/StaggeredDropDown';
 import Card from '../components/dashboard/Card';
 
 const DashboardPage = () => {
@@ -59,9 +58,6 @@ const DashboardPage = () => {
           />
         </div>
         <div className="h-[600px] m-4 rounded-xl bg-white text-gray-700 shadow-lg p-6 mt-8 overflow-y-auto">
-          <div className="flex justify-center">
-            <StaggeredDropDown setView={setView} />
-          </div>
           <MarketDashboard view={view} />
         </div>
       </div>

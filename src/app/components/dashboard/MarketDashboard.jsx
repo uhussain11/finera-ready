@@ -1,10 +1,27 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { fetchNews } from './apiService';
+
+const sampleNews = [
+  {
+    title: "Sample News 1",
+    summary: "This is a summary for sample news 1.",
+    url: "https://example.com/news1"
+  },
+  {
+    title: "Sample News 2",
+    summary: "This is a summary for sample news 2.",
+    url: "https://example.com/news2"
+  },
+  {
+    title: "Sample News 3",
+    summary: "This is a summary for sample news 3.",
+    url: "https://example.com/news3"
+  }
+];
 
 const MarketDashboard = ({ view }) => {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [news, setNews] = useState(sampleNews);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -12,10 +29,9 @@ const MarketDashboard = ({ view }) => {
       setLoading(true);
       setError(null);
       try {
-        if (view === 'news') {
-          const newsData = await fetchNews();
-          setNews(newsData);
-        }
+        // Placeholder for the real fetchNews function
+        // const newsData = await fetchNews();
+        // setNews(newsData);
       } catch (error) {
         console.error('Error fetching market data:', error);
         setError(error.message);
@@ -23,6 +39,8 @@ const MarketDashboard = ({ view }) => {
         setLoading(false);
       }
     };
+    
+    // Call getData when the component mounts or when the view changes
     getData();
   }, [view]);
 
