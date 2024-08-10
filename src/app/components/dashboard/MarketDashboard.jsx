@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { fetchNews, fetchTopGainersLosers } from './apiService';
+import { fetchNews } from './apiService';
 
 const MarketDashboard = ({ view }) => {
   const [news, setNews] = useState([]);
-  const [gainers, setGainers] = useState([]);
-  const [losers, setLosers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,10 +15,6 @@ const MarketDashboard = ({ view }) => {
         if (view === 'news') {
           const newsData = await fetchNews();
           setNews(newsData);
-        } else if (view === 'gainers_losers') {
-          const { gainers, losers } = await fetchTopGainersLosers();
-          setGainers(gainers);
-          setLosers(losers);
         }
       } catch (error) {
         console.error('Error fetching market data:', error);
@@ -49,32 +43,8 @@ const MarketDashboard = ({ view }) => {
               <div key={index} className="news-item p-2 border border-slate-600 bg-slate-700 rounded">
                 <a href={item.url} target="_blank" rel="noopener noreferrer">
                   <h3 className="text-white text-sm">{item.title}</h3>
-                  <p className="text-slate-400 text-xs">{item.description}</p>
+                  <p className="text-slate-400 text-xs">{item.summary}</p>
                 </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {view === 'gainers_losers' && (
-        <div className="top-gainers-losers">
-          <h2 className="text-black text-lg p-4">Top Gainers</h2>
-          <div className="grid grid-cols-1 gap-4">
-            {gainers.map((item, index) => (
-              <div key={index} className="gainer-item p-2 border border-slate-600 bg-slate-700 rounded">
-                <h3 className="text-black text-sm">{item.name} ({item.ticker})</h3>
-                <p className="text-slate-400 text-xs">Price: {item.price} Change: {item.change}%</p>
-              </div>
-            ))}
-          </div>
-
-          <h2 className="text-black text-lg p-4 mt-8">Top Losers</h2>
-          <div className="grid grid-cols-1 gap-4">
-            {losers.map((item, index) => (
-              <div key={index} className="loser-item p-2 border border-slate-600 bg-slate-700 rounded">
-                <h3 className="text-black text-sm">{item.name} ({item.ticker})</h3>
-                <p className="text-slate-400 text-xs">Price: {item.price} Change: {item.change}%</p>
               </div>
             ))}
           </div>

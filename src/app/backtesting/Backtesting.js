@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import axios from 'axios';
 import CodeEditor from '../components/backtesting/CodeEditor';
@@ -19,36 +19,71 @@ const Backtesting = () => {
         setLoading(true);
         setError('');
         try {
-            const response = await axios.post('https://4klc5v1sxg.execute-api.us-east-1.amazonaws.com/dev/fetchData', {
+            const fetchDataResponse = await axios.post('https://spe2442ewf.execute-api.us-east-1.amazonaws.com/prod/fetch_data', {
+                ticker: ticker,
+                period: `${startDate}:${endDate}`
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('Data fetched:', fetchDataResponse.data);
+
+            const cacheKey = fetchDataResponse.data.cache_key;
+
+            const runBacktestResponse = await axios.post('https://spe2442ewf.execute-api.us-east-1.amazonaws.com/prod/run_backtest', {
                 strategy_code: strategyCode,
                 ticker: ticker,
                 period: `${startDate}:${endDate}`,
-                capital: capital
+                capital: capital,
+                cache_key: cacheKey
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
-            console.log(response.data);
-            // Call fetchResults after a delay to ensure backtest completion
-            setTimeout(fetchResults, 5000);
-        } catch (error) {
-            console.error('Error running backtest', error);
-            setError('Failed to run backtest. Please try again.');
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    const fetchResults = async () => {
-        setLoading(true);
-        setError('');
-        try {
-            const response = await axios.post('https://hcqq9e84yg.execute-api.us-east-1.amazonaws.com/dev/DisplayResults', {
+            console.log('Backtest run:', runBacktestResponse.data);
+
+            const storeResultsResponse = await axios.post('https://spe2442ewf.execute-api.us-east-1.amazonaws.com/prod/store_results', {
+                ticker: ticker,
+                period: `${startDate}:${endDate}`,
+                capital: capital,
+                results: runBacktestResponse.data.results
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('Results stored:', storeResultsResponse.data);
+
+            const displayResultsResponse = await axios.post('https://spe2442ewf.execute-api.us-east-1.amazonaws.com/prod/display_results', {
                 ticker: ticker,
                 period: `${startDate}:${endDate}`
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
-            const data = JSON.parse(response.data.Results.S);
-            setResults(data);
+
+            console.log('Results displayed:', displayResultsResponse.data);
+
+            const parsedResults = JSON.parse(displayResultsResponse.data.Results);
+
+            setResults({
+                returns: parsedResults.returns,
+                beta: parsedResults.beta,
+                sharpe: parsedResults.sharpe,
+                drawdown: parsedResults.drawdown,
+                portfolioValue: parsedResults.portfolioValue,
+                benchmark: parsedResults.benchmark
+            });
+
         } catch (error) {
-            console.error('Error fetching results', error);
-            setError('Failed to fetch results. Please try again.');
+            console.error('Error:', error);
+            setError('An error occurred. Please try again.');
         } finally {
             setLoading(false);
         }

@@ -11,6 +11,10 @@
   "dependencies": {
     "@canvasjs/react-charts": "^1.0.2",
     "@codemirror/lang-python": "^6.1.6",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.4",
+    "@shadcn/ui": "^0.0.4",
     "@uiw/react-codemirror": "^4.23.0",
     "axios": "^1.7.2",
     "canvasjs-react-charts": "^1.0.5",

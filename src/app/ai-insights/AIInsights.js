@@ -1,75 +1,122 @@
 'use client';
 import React, { useState } from 'react';
-import CustomButton from '../components/common/CustomButton';
-import AIInsightsResults from '../components/aiInsights/AIInsightsResults';
+import { Button, TextField, Card, CardContent, CardHeader, Typography, Box, Container, Grid } from '@mui/material';
 
 const AIInsights = () => {
   const [dataSymbol, setDataSymbol] = useState('');
   const [startDate, setStartDate] = useState('2023-01-01');
   const [endDate, setEndDate] = useState('2023-12-31');
   const [insights, setInsights] = useState(null);
+  const [analysisType, setAnalysisType] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const runStockAnalysis = () => {
-    // Mock data for stock insights
-    const mockInsights = {
-      sentimentScore: 0.75,
-      pricePrediction: [
-        { x: new Date(2023, 0, 1), y: 150 },
-        { x: new Date(2023, 3, 1), y: 160 },
-        { x: new Date(2023, 6, 1), y: 155 },
-        { x: new Date(2023, 9, 1), y: 165 },
-        { x: new Date(2023, 11, 31), y: 170 }
-      ],
-      keyMetrics: [
-        { name: 'PE Ratio', value: 15 },
-        { name: 'Market Cap', value: '1.5T' },
-        { name: 'EPS', value: 5 }
-      ]
-    };
-    setInsights(mockInsights);
+    setLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      const mockInsights = {
+        sentiment: 'The sentiment is generally positive, indicating strong investor confidence.',
+        fundamental: 'The company has a PE ratio of 15, a market cap of 1.5T, and an EPS of 5, indicating solid financial health.',
+      };
+      setInsights(mockInsights);
+      setLoading(false);
+    }, 2000);
+  };
+
+  const handleAnalysisType = (type) => {
+    setAnalysisType(type);
+    setShowForm(true);
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gray-100 font-sans">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Stock Insights</h2>
-        <div className="flex space-x-4 mb-4">
-          <input
-            type="text"
-            value={dataSymbol}
-            onChange={(e) => setDataSymbol(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter Stock Symbol"
-          />
-        </div>
-        <div className="flex space-x-4 mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
-            Start Date
-          </label>
-          <input
-            type="date"
-            id="startDate"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="endDate">
-            End Date
-          </label>
-          <input
-            type="date"
-            id="endDate"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="flex space-x-4">
-          <CustomButton text="Get Insights" onClick={runStockAnalysis} />
-        </div>
-      </div>
-      {insights && <AIInsightsResults insights={insights} />}
-    </div>
+    <Container sx={{ minHeight: '100vh', bgcolor: 'grey.100', p: 6, fontFamily: 'Arial, sans-serif' }}>
+      {!showForm ? (
+        <Box sx={{ textAlign: 'center', mt: 8 }}>
+          <Typography variant="h3" component="h1" sx={{ mb: 4, color: 'grey.800', fontWeight: 'bold' }}>
+            Discover Market Insights
+          </Typography>
+          <Typography variant="h5" component="p" sx={{ mb: 4, color: 'grey.600' }}>
+            Choose the type of analysis to begin:
+          </Typography>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleAnalysisType('fundamental')}
+                sx={{ p: 2, fontSize: '1.2rem', transition: '0.3s', '&:hover': { backgroundColor: '#1E88E5', transform: 'scale(1.05)' } }}
+              >
+                Analyze Fundamentals
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleAnalysisType('sentiment')}
+                sx={{ p: 2, fontSize: '1.2rem', transition: '0.3s', '&:hover': { backgroundColor: '#D32F2F', transform: 'scale(1.05)' } }}
+              >
+                Analyze Sentiment
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      ) : (
+        <>
+          <Typography variant="h4" component="h2" sx={{ mb: 4, color: 'grey.800', fontWeight: 'bold' }}>
+            {analysisType === 'fundamental' ? 'Fundamental Analysis' : 'Sentiment Analysis'}
+          </Typography>
+          <Card sx={{ mb: 4, p: 3, boxShadow: 3 }}>
+            <CardHeader title="Enter Stock Details" />
+            <CardContent>
+              <TextField
+                label="Stock Symbol"
+                value={dataSymbol}
+                onChange={(e) => setDataSymbol(e.target.value)}
+                fullWidth
+                sx={{ mb: 3 }}
+              />
+              <TextField
+                label="Start Date"
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                fullWidth
+                sx={{ mb: 3 }}
+                InputLabelProps={{ shrink: true }}
+              />
+              <TextField
+                label="End Date"
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                fullWidth
+                sx={{ mb: 3 }}
+                InputLabelProps={{ shrink: true }}
+              />
+              <Button variant="contained" color="primary" onClick={runStockAnalysis}>
+                Get Insights
+              </Button>
+            </CardContent>
+          </Card>
+          {loading ? (
+            <Typography variant="h6" component="div" sx={{ textAlign: 'center', mt: 4 }}>
+              Loading...
+            </Typography>
+          ) : (
+            insights && (
+              <Card sx={{ mt: 4, p: 3, boxShadow: 3 }}>
+                <CardHeader title={analysisType === 'fundamental' ? 'Fundamental Analysis' : 'Sentiment Analysis'} />
+                <CardContent>
+                  <Typography variant="body1">{analysisType === 'fundamental' ? insights.fundamental : insights.sentiment}</Typography>
+                </CardContent>
+              </Card>
+            )
+          )}
+        </>
+      )}
+    </Container>
   );
 };
 
