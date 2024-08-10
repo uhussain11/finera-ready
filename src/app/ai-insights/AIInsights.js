@@ -1,5 +1,4 @@
 'use client';
-import React, { useState } from 'react';
 import { Button, TextField, Card, CardContent, CardHeader, Typography, Box, Container, Grid } from '@mui/material';
 
 const AIInsights = () => {

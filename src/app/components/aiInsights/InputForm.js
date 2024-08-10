@@ -1,4 +1,3 @@
-import React from 'react';
 import { TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 
 const InputForm = ({ dataSymbol, setDataSymbol, startDate, setStartDate, endDate, setEndDate, analysisType, setAnalysisType }) => {

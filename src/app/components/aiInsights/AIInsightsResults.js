@@ -1,4 +1,3 @@
-import React from 'react';
 import AIInsightsChart from './AIInsightsChart';
 
 const AIInsightsResults = ({ insights }) => {
