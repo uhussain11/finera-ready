@@ -1,7 +1,7 @@
 'use client';
 import PropTypes from 'prop-types';
 import { usePathname } from 'next/navigation';
-import Header from './components/homepage/Header';
+import Header from './components/dashboard/Header';
 import './styles/globals.css'; // Import global styles
 
 const Layout = ({ children }) => {

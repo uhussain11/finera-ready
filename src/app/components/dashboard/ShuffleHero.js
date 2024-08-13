@@ -1,4 +1,4 @@
-'use client'; // Ensure this directive is at the top
+'use client'; 
 
 import PropTypes from 'prop-types';
 import { motion } from "framer-motion";

@@ -199,12 +199,6 @@ const Features = () => {
             View Backtesting
           </a>
         </div>
-        <div>
-          <h3 className="mb-2 text-sm font-medium">Paper Trading</h3>
-          <a href="#" className="mb-1 block text-sm text-neutral-400">
-            View Paper Trading
-          </a>
-        </div>
       </div>
     </div>
   );

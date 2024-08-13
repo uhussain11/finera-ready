@@ -1,5 +1,6 @@
 import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
+import PropTypes from 'prop-types';
 
 const CodeEditor = ({ value, onChange }) => {
   return (
@@ -10,7 +11,7 @@ const CodeEditor = ({ value, onChange }) => {
         width="100%"
         theme="dark"
         extensions={[python()]}
-        onChange={(value, viewUpdate) => {
+        onChange={(value) => {
           onChange(value);
         }}
         options={{
@@ -20,6 +21,11 @@ const CodeEditor = ({ value, onChange }) => {
       />
     </div>
   );
+};
+
+CodeEditor.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default CodeEditor;

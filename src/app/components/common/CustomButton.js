@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const CustomButton = ({ text, onClick }) => {
   return (
     <button
@@ -10,6 +12,12 @@ const CustomButton = ({ text, onClick }) => {
       </span>
     </button>
   );
+};
+
+// Add PropTypes validation
+CustomButton.propTypes = {
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default CustomButton;

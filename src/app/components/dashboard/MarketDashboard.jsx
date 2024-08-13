@@ -1,26 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-const sampleNews = [
-  {
-    title: "Sample News 1",
-    summary: "This is a summary for sample news 1.",
-    url: "https://example.com/news1"
-  },
-  {
-    title: "Sample News 2",
-    summary: "This is a summary for sample news 2.",
-    url: "https://example.com/news2"
-  },
-  {
-    title: "Sample News 3",
-    summary: "This is a summary for sample news 3.",
-    url: "https://example.com/news3"
-  }
-];
-
 const MarketDashboard = ({ view }) => {
-  const [news, setNews] = useState(sampleNews);
+  const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -29,9 +11,12 @@ const MarketDashboard = ({ view }) => {
       setLoading(true);
       setError(null);
       try {
-        // Placeholder for the real fetchNews function
-        // const newsData = await fetchNews();
-        // setNews(newsData);
+        const response = await fetch('https://dh6nnof2d3.execute-api.us-east-1.amazonaws.com/dev/news');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const newsData = await response.json();
+        setNews(newsData);
       } catch (error) {
         console.error('Error fetching market data:', error);
         setError(error.message);

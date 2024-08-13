@@ -1,4 +1,6 @@
 import dynamic from 'next/dynamic';
+import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 
 const CanvasJSChart = dynamic(
   () => import('@canvasjs/react-charts').then((module) => module.CanvasJSChart),
@@ -55,6 +57,12 @@ const BacktestChart = ({ portfolioData, benchmarkData }) => {
   }, [portfolioData, benchmarkData]);
 
   return chartOptions ? <CanvasJSChart options={chartOptions} /> : null;
+};
+
+// Add PropTypes validation
+BacktestChart.propTypes = {
+  portfolioData: PropTypes.arrayOf(PropTypes.number).isRequired,
+  benchmarkData: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default BacktestChart;
